@@ -261,29 +261,14 @@
       display: block; margin-bottom: .55rem; color: var(--brand); font-size: var(--lead);
     }
     .booking-step span { display: block; color: var(--muted); }
-    .booking-visual { position: relative; min-height: 32rem; display: grid; place-items: center; }
-    .confirmation {
-      position: relative; width: min(100%,25rem); padding: clamp(1.75rem,4vw,2.6rem);
-      border-radius: 1.125rem;
-      background: var(--paper); transform: rotate(-1.5deg);
+    .booking-visual {
+      position: relative; min-width: 0; margin: 0;
+      display: flex; justify-content: center;
     }
-    .confirmation-label {
-      display: inline-block; margin-bottom: clamp(2.75rem,7vw,5rem);
-      color: #6f4227; font-size: var(--small); font-weight: 700;
+    .example-pass-image {
+      display: block; width: min(100%,30rem); height: auto;
+      aspect-ratio: 834 / 1280; object-fit: contain;
     }
-    .confirmation-mark {
-      width: 2.25rem; height: 2.25rem; display: grid; place-items: center;
-      margin-bottom: 1.125rem; border-radius: 50%; background: var(--brand); color: var(--white);
-    }
-    .confirmation-mark svg { width: 1rem; height: 1rem; }
-    .confirmation h3 { margin: 0; font-size: var(--lead); letter-spacing: -.035em; }
-    .confirmation p { margin: .45rem 0 0; color: var(--muted); }
-    .confirmation-row {
-      display: flex; justify-content: space-between; gap: 1.25rem;
-      margin-top: 1.65rem; padding-top: 1.125rem;
-      color: var(--muted); font-size: var(--small);
-    }
-    .confirmation-row strong { color: var(--ink); font-variant-numeric: tabular-nums; }
     .hotels { padding: clamp(6rem,11vw,9.5rem) 0; background: var(--page); }
     .hotel-heading {
       display: grid; grid-template-columns: minmax(0,1.1fr) minmax(18rem,.7fr);
@@ -352,7 +337,7 @@
       .experience-pool { grid-column: 1 / -1; grid-row: 1; }
       .experience-spa { grid-column: 1 / span 6; grid-row: 2; }
       .experience-gym { grid-column: 7 / -1; grid-row: 2; }
-      .booking-visual { min-height: 29rem; }
+      .booking-visual { margin-top: 1rem; }
       .hotel-body { grid-template-columns: minmax(18rem,.85fr) 1fr; gap: 4rem; }
     }
     @media (max-width: 620px) {
@@ -388,9 +373,8 @@
       .experience-copy { inset: auto 1.25rem 1.25rem; }
       .experience-spa img { object-position: center 45%; }
       .booking-layout { gap: 3rem; }
-      .booking-visual { min-height: 25rem; }
-      .confirmation { width: min(90%,22rem); padding: 1.6rem; }
-      .confirmation-label { margin-bottom: 2.75rem; }
+      .booking-visual { margin-top: .5rem; }
+      .example-pass-image { width: min(100%,24rem); }
       .hotel-body { grid-template-columns: 1fr; }
       .partner-form { padding: 2rem 1.25rem; }
       .hotel-benefits li, .hotel-benefits li:nth-child(2), .hotel-benefits li:nth-child(3) { margin-left: 0; }
@@ -517,19 +501,17 @@
             <div class="booking-step"><strong>Arrive</strong><span>Show the booking code at hotel reception.</span></div>
           </div>
         </div>
-        <div class="booking-visual" data-reveal aria-label="Example restpass booking confirmation">
-          <div class="confirmation">
-            <span class="confirmation-label">Example pass</span>
-            <div class="confirmation-mark" aria-hidden="true">
-              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 10.25L8.1 13.35L15.2 6.25" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <h3>Your day is booked.</h3>
-            <p>Show this code at hotel reception.</p>
-            <div class="confirmation-row"><span>Booking code</span><strong>RP 8246</strong></div>
-          </div>
-        </div>
+        <figure class="booking-visual" data-reveal>
+          <img
+            class="example-pass-image"
+            src="assets/restpass-example-pass-834x1280.webp"
+            alt="Example restpass pool and lunch day pass for Amberwave Bay Resort and Spa"
+            width="834"
+            height="1280"
+            loading="lazy"
+            decoding="async"
+          >
+        </figure>
       </div>
     </section>
     <section class="hotels" id="hotels" aria-labelledby="hotelsTitle">

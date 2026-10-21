@@ -21,10 +21,10 @@ test('preserves the approved coming-soon copy and lowercase brand', () => {
   assert.doesNotMatch(privacy, /—/);
 });
 
-test('serves the hero and three credited experience photographs locally', () => {
+test('serves the hero, three credited experiences and example pass locally', () => {
   const imageTags = [...index.matchAll(/<img\b[^>]*>/g)].map(match => match[0]);
 
-  assert.equal(imageTags.length, 4);
+  assert.equal(imageTags.length, 5);
   for (const tag of imageTags) {
     assert.match(tag, /\ssrc="assets\/[^"]+\.webp"/);
     assert.match(tag, /\salt="[^"]+"/);
@@ -35,6 +35,8 @@ test('serves the hero and three credited experience photographs locally', () => 
   assert.doesNotMatch(index, /<img\b[^>]*src="https?:\/\//);
   assert.doesNotMatch(index, /<source\b[^>]*srcset="https?:\/\//);
   assert.equal((index.match(/class="experience-credit"/g) ?? []).length, 3);
+  assert.match(index, /class="example-pass-image"[\s\S]*?src="assets\/restpass-example-pass-834x1280\.webp"/);
+  assert.match(index, /\.example-pass-image\s*\{[\s\S]*?width:\s*min\(100%,30rem\)[\s\S]*?height:\s*auto/);
 });
 
 test('keeps all three forms, privacy disclosures and the restpass submission target', () => {
@@ -50,7 +52,7 @@ test('keeps all three forms, privacy disclosures and the restpass submission tar
 test('retains accessible, restrained interaction details', () => {
   assert.match(index, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(index, /:focus-visible/);
-  assert.match(index, /class="confirmation-mark" aria-hidden="true">[\s\S]*?<svg/);
+  assert.doesNotMatch(index, /class="confirmation"/);
   assert.doesNotMatch(index, />✓</);
   assert.match(index, /class="menu-button"[^>]*aria-expanded="false"[^>]*aria-controls="mobileMenu"/);
 });
