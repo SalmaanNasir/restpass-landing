@@ -5,6 +5,7 @@ import test from 'node:test';
 const root = new URL('../', import.meta.url);
 const index = await readFile(new URL('index.html', root), 'utf8');
 const privacy = await readFile(new URL('privacy.html', root), 'utf8');
+const partner = await readFile(new URL('partners/index.html', root), 'utf8');
 
 test('preserves the approved coming-soon copy and lowercase brand', () => {
   const visibleHeadline = index
@@ -55,4 +56,25 @@ test('retains accessible, restrained interaction details', () => {
   assert.doesNotMatch(index, /class="confirmation"/);
   assert.doesNotMatch(index, />✓</);
   assert.match(index, /class="menu-button"[^>]*aria-expanded="false"[^>]*aria-controls="mobileMenu"/);
+});
+
+test('links the approved partner page from the coming-soon site', () => {
+  assert.ok((index.match(/href="partners\/"/g) ?? []).length >= 4);
+  assert.match(partner, /<h1>restpass for partner hotels<\/h1>/);
+  assert.match(partner, /connect@restpass\.lk/);
+  assert.match(partner, /id="hotel-partnership"/);
+});
+
+test('keeps partner assets local and the knowledge hub unpublished', () => {
+  const imageTags = [...partner.matchAll(/<img\b[^>]*>/g)].map(match => match[0]);
+  assert.equal(imageTags.length, 7);
+  for (const tag of imageTags) {
+    assert.match(tag, /\ssrc="assets\/[^\"]+"/);
+    assert.match(tag, /\salt="[^\"]+"/);
+    assert.match(tag, /\swidth="\d+"/);
+    assert.match(tag, /\sheight="\d+"/);
+  }
+  assert.doesNotMatch(partner, /href="[^"]*knowledge/i);
+  assert.doesNotMatch(partner, /staging\.restpass\.lk/i);
+  assert.doesNotMatch(partner, /—/);
 });
