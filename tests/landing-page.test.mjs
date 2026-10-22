@@ -68,7 +68,7 @@ test('links the approved partner page from the coming-soon site', () => {
 
 test('keeps partner assets local and the knowledge hub unpublished', () => {
   const imageTags = [...partner.matchAll(/<img\b[^>]*>/g)].map(match => match[0]);
-  assert.equal(imageTags.length, 7);
+  assert.equal(imageTags.length, 6);
   for (const tag of imageTags) {
     assert.match(tag, /\ssrc="assets\/[^\"]+"/);
     assert.match(tag, /\salt="[^\"]+"/);
@@ -80,12 +80,17 @@ test('keeps partner assets local and the knowledge hub unpublished', () => {
   assert.doesNotMatch(partner, /—/);
 });
 
-test('keeps the partner reception previews readable on mobile', () => {
-  assert.match(partner, /class="partner-operations__checkin"/);
+test('keeps the partner reception section concise and readable', () => {
+  const reception = partner.match(/<section class="partner-operations[\s\S]*?<\/section>/)?.[0] ?? '';
+
+  assert.doesNotMatch(reception, /portal-check-in-mobile/);
+  assert.doesNotMatch(reception, /partner-operations__checkin/);
   assert.match(partner, /class="partner-operations__calendar"/);
-  assert.match(partnerCss, /\.partner-operations__checkin img\s*\{[\s\S]*?height:\s*auto/);
   assert.match(partnerCss, /\.partner-operations__calendar img\s*\{[\s\S]*?height:\s*auto/);
   assert.match(partnerCss, /@media \(max-width:\s*700px\)[\s\S]*?\.partner-operations\s*\{\s*grid-template-columns:\s*1fr;/);
+  assert.equal((reception.match(/<li>/g) ?? []).length, 2);
+  assert.match(reception, /Scan the guest QR code or enter the booking code\./);
+  assert.match(reception, /Verify the pass online and record a one-time check-in\./);
 });
 
 test('answers the core hotel partnership questions', () => {
