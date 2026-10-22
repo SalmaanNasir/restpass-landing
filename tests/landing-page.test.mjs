@@ -6,6 +6,7 @@ const root = new URL('../', import.meta.url);
 const index = await readFile(new URL('index.html', root), 'utf8');
 const privacy = await readFile(new URL('privacy.html', root), 'utf8');
 const partner = await readFile(new URL('partners/index.html', root), 'utf8');
+const partnerCss = await readFile(new URL('partners/partners.css', root), 'utf8');
 
 test('preserves the approved coming-soon copy and lowercase brand', () => {
   const visibleHeadline = index
@@ -77,4 +78,29 @@ test('keeps partner assets local and the knowledge hub unpublished', () => {
   assert.doesNotMatch(partner, /href="[^"]*knowledge/i);
   assert.doesNotMatch(partner, /staging\.restpass\.lk/i);
   assert.doesNotMatch(partner, /—/);
+});
+
+test('keeps the partner reception previews readable on mobile', () => {
+  assert.match(partner, /class="partner-operations__checkin"/);
+  assert.match(partner, /class="partner-operations__calendar"/);
+  assert.match(partnerCss, /\.partner-operations__checkin img\s*\{[\s\S]*?height:\s*auto/);
+  assert.match(partnerCss, /\.partner-operations__calendar img\s*\{[\s\S]*?height:\s*auto/);
+  assert.match(partnerCss, /@media \(max-width:\s*700px\)[\s\S]*?\.partner-operations\s*\{\s*grid-template-columns:\s*1fr;/);
+});
+
+test('answers the core hotel partnership questions', () => {
+  for (const question of [
+    'How does restpass benefit my hotel?',
+    'How much does it cost?',
+    'Who controls prices and availability?',
+    'How and when do I get paid?',
+    'How are bookings managed?',
+    'How do I become a partner?',
+  ]) {
+    assert.ok(partner.includes(`<summary>${question}</summary>`));
+  }
+
+  assert.match(partner, /no setup fee for proposed initial hotel pilots/i);
+  assert.match(partner, /Commission is proposed at 10%/);
+  assert.match(partner, /signed agreement will state the settlement schedule/i);
 });
