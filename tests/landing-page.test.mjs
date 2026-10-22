@@ -105,7 +105,7 @@ test('answers the core hotel partnership questions', () => {
     assert.ok(partner.includes(`<summary>${question}</summary>`));
   }
 
-  assert.match(partner, /no setup fee for proposed initial hotel pilots/i);
-  assert.match(partner, /Commission is proposed at 10%/);
+  assert.match(partner, /Commission is calculated as a percentage of the eligible booking value and is negotiable\./);
+  assert.doesNotMatch(partner, /10%|setup fee/i);
   assert.match(partner, /signed agreement will state the settlement schedule/i);
 });
