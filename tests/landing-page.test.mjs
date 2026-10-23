@@ -80,20 +80,31 @@ test('keeps partner assets local and the knowledge hub unpublished', () => {
   assert.doesNotMatch(partner, /—/);
 });
 
-test('keeps the partner reception section concise and readable', () => {
-  const reception = partner.match(/<section class="partner-operations[\s\S]*?<\/section>/)?.[0] ?? '';
+test('presents four commercial partner messages with partnership CTAs', () => {
+  for (const heading of [
+    'More Guests. More Opportunities.',
+    'Reach More Customers.',
+    'You Are in Control.',
+    'Easy Tools. Simple Management.',
+  ]) {
+    assert.ok(partner.includes(`>${heading}</h2>`));
+  }
 
-  assert.doesNotMatch(reception, /portal-check-in-mobile/);
-  assert.doesNotMatch(reception, /partner-operations__checkin/);
-  assert.match(partner, /class="partner-operations__calendar"/);
-  assert.match(partnerCss, /\.partner-operations__calendar img\s*\{[\s\S]*?height:\s*auto/);
-  assert.match(partnerCss, /@media \(max-width:\s*700px\)[\s\S]*?\.partner-operations\s*\{\s*grid-template-columns:\s*1fr;/);
-  assert.equal((reception.match(/<li>/g) ?? []).length, 2);
-  assert.match(reception, /Scan the guest QR code or enter the booking code\./);
-  assert.match(reception, /Verify the pass online and record a one-time check-in\./);
+  assert.equal((partner.match(/class="partner-button partner-value__cta" href="#hotel-partnership"/g) ?? []).length, 4);
+  assert.match(partner, />Grow Your Revenue\s*</);
+  assert.match(partner, />Expand Your Reach\s*</);
+  assert.match(partner, />Explore Your Partnership Options\s*</);
+  assert.match(partner, />Discover the Partner Platform\s*</);
+  assert.doesNotMatch(partner, />Hotel controls</);
+  assert.doesNotMatch(partner, />How bookings work</);
+  assert.doesNotMatch(partner, />At reception</);
+  assert.doesNotMatch(partner, />Getting started</);
+  assert.match(partnerCss, /\.partner-value\s*\{[\s\S]*?display:\s*grid/);
+  assert.match(partnerCss, /@media \(max-width:\s*1000px\)[\s\S]*?\.partner-value\s*\{\s*grid-template-columns:\s*1fr/);
 });
 
 test('answers the core hotel partnership questions', () => {
+  assert.match(partner, /<h2 id="partner-faq-heading">Partner FAQs<\/h2>/);
   for (const question of [
     'How does restpass benefit my hotel?',
     'How much does it cost?',
@@ -108,4 +119,5 @@ test('answers the core hotel partnership questions', () => {
   assert.match(partner, /Commission is calculated as a percentage of the eligible booking value and is negotiable\./);
   assert.doesNotMatch(partner, /10%|setup fee/i);
   assert.match(partner, /signed agreement will state the settlement schedule/i);
+  assert.doesNotMatch(partner, /Can one hotel see another hotel's data\?/);
 });
