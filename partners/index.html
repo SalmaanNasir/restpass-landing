@@ -152,7 +152,7 @@
           <button class="partner-button partner-button--light" type="submit">Prepare email
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </button>
-          <p class="partner-form-note">This page does not create an account or store your details. Submitting opens an email to connect@restpass.lk. See the <a href="/privacy.html">privacy notice</a>.</p>
+          <p class="partner-form-note">This page does not create an account or store your details. Submitting opens an email to support@restpass.lk. See the <a href="/privacy.html">privacy notice</a>.</p>
         </form>
       </section>
     </main>
@@ -160,7 +160,7 @@
     <footer class="partner-footer">
       <div>
         <strong>restpass for partner hotels</strong>
-        <a href="mailto:connect@restpass.lk">connect@restpass.lk</a>
+        <a href="mailto:support@restpass.lk">support@restpass.lk</a>
       </div>
       <nav aria-label="Partner footer navigation">
         <a href="/">Customer site</a>
@@ -186,7 +186,7 @@
         'Work email: ' + String(data.get('email') || '').trim(),
         'Phone: ' + String(data.get('phone') || '').trim()
       ].join('\n');
-      window.location.href = 'mailto:connect@restpass.lk?subject=' + encodeURIComponent('Hotel partnership enquiry: ' + hotelName) + '&body=' + encodeURIComponent(body);
+      window.location.href = 'mailto:support@restpass.lk?subject=' + encodeURIComponent('Hotel partnership enquiry: ' + hotelName) + '&body=' + encodeURIComponent(body);
     });
 
     if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches && 'IntersectionObserver' in window) {

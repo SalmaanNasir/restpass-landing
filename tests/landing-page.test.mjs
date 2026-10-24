@@ -48,7 +48,7 @@ test('keeps all three forms, privacy disclosures and the restpass submission tar
   assert.equal((index.match(/agree to the <a href="privacy\.html">privacy policy<\/a>/g) ?? []).length, 3);
   assert.match(index, /https:\/\/qfdhbbnjudfitwrrbxuy\.supabase\.co/);
   assert.match(index, /rest\/v1\/launch_interest/);
-  assert.match(index, /connect@restpass\.lk/);
+  assert.match(index, /support@restpass\.lk/);
 });
 
 test('retains accessible, restrained interaction details', () => {
@@ -62,7 +62,7 @@ test('retains accessible, restrained interaction details', () => {
 test('links the approved partner page from the coming-soon site', () => {
   assert.ok((index.match(/href="partners\/"/g) ?? []).length >= 4);
   assert.match(partner, /<h1>restpass for partner hotels<\/h1>/);
-  assert.match(partner, /connect@restpass\.lk/);
+  assert.match(partner, /support@restpass\.lk/);
   assert.match(partner, /id="hotel-partnership"/);
 });
 

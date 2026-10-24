@@ -20,6 +20,6 @@ test('privacy policy describes the limited pre-launch data use', async () => {
   assert.match(policy, /hotel partnership/i);
   assert.match(policy, /do not sell/i);
   assert.match(policy, /delete/i);
-  assert.match(policy, /connect@restpass\.lk/i);
+  assert.match(policy, /support@restpass\.lk/i);
   assert.doesNotMatch(policy, /—/);
 });
