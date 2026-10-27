@@ -23,8 +23,19 @@ test('preserves the approved coming-soon copy and lowercase brand', () => {
   assert.doesNotMatch(privacy, /—/);
 });
 
+test('uses one approved wordmark asset and a local browser icon on every public page', () => {
+  for (const page of [index, privacy]) {
+    assert.match(page, /<img[^>]+src="assets\/restpass-wordmark\.png"[^>]+alt="restpass"/);
+    assert.match(page, /<link rel="icon" type="image\/png" href="assets\/restpass-wordmark\.png">/);
+    assert.doesNotMatch(page, /wordmark-rest|wordmark-pass|<strong>rest<\/strong><span>pass<\/span>/);
+  }
+
+  assert.match(partner, /<img[^>]+src="\.\.\/assets\/restpass-wordmark\.png"[^>]+alt="restpass"/);
+  assert.match(partner, /<link rel="icon" type="image\/png" href="\.\.\/assets\/restpass-wordmark\.png">/);
+});
+
 test('serves the hero, three credited experiences and example pass locally', () => {
-  const imageTags = [...index.matchAll(/<img\b[^>]*>/g)].map(match => match[0]);
+  const imageTags = [...index.matchAll(/<img\b[^>]*>/g)].map(match => match[0]).filter(tag => !tag.includes('restpass-wordmark'));
 
   assert.equal(imageTags.length, 5);
   for (const tag of imageTags) {
@@ -69,7 +80,7 @@ test('links the approved partner page from the coming-soon site', () => {
 test('keeps partner assets local and the knowledge hub unpublished', () => {
   const imageTags = [...partner.matchAll(/<img\b[^>]*>/g)].map(match => match[0]);
   assert.equal(imageTags.length, 6);
-  for (const tag of imageTags) {
+  for (const tag of imageTags.filter(tag => !tag.includes('restpass-wordmark.png'))) {
     assert.match(tag, /\ssrc="assets\/[^\"]+"/);
     assert.match(tag, /\salt="[^\"]+"/);
     assert.match(tag, /\swidth="\d+"/);
