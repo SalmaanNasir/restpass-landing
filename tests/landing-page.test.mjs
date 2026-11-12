@@ -7,6 +7,13 @@ const index = await readFile(new URL('index.html', root), 'utf8');
 const privacy = await readFile(new URL('privacy.html', root), 'utf8');
 const partner = await readFile(new URL('partners/index.html', root), 'utf8');
 const partnerCss = await readFile(new URL('partners/partners.css', root), 'utf8');
+const readme = await readFile(new URL('README.md', root), 'utf8');
+const incorrectBrandNames = [
+  ['Rest', 'Pass'].join(''),
+  ['Rest', 'pass'].join(''),
+  ['REST', 'PASS'].join(''),
+];
+const incorrectBrandPattern = new RegExp(incorrectBrandNames.join('|'), 'u');
 
 test('preserves the approved coming-soon copy and lowercase brand', () => {
   const visibleHeadline = index
@@ -17,8 +24,9 @@ test('preserves the approved coming-soon copy and lowercase brand', () => {
 
   assert.equal(visibleHeadline, 'Your hotel day, without the hotel stay.');
   assert.match(index, />COMING SOON</);
-  assert.doesNotMatch(index, /RestPass|RESTPASS/);
-  assert.doesNotMatch(privacy, /RestPass|RESTPASS/);
+  for (const source of [index, privacy, partner, readme]) {
+    assert.doesNotMatch(source, incorrectBrandPattern);
+  }
   assert.doesNotMatch(index, /—/);
   assert.doesNotMatch(privacy, /—/);
 });

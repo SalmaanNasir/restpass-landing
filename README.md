@@ -1,4 +1,4 @@
-# RestPass landing page
+# restpass landing page
 
 Public, non-transactional coming-soon page for www.restpass.lk.
 
